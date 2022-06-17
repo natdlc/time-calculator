@@ -16,6 +16,7 @@ minutes.addEventListener("keyup", (e) => {
 	minutesInput = +e.target.value;
 });
 
+
 addBtn.addEventListener("click", (e) => {
 	e.preventDefault();
 	inputsArr.push({
