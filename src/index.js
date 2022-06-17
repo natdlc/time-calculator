@@ -1,41 +1,49 @@
-const hour = document.getElementById("hour");
-const minutes = document.getElementById("minutes");
+const hoursInput = document.getElementById("hour");
+const minutesInput = document.getElementById("minutes");
 const addBtn = document.getElementById("add-btn");
 const refreshBtn = document.getElementById("refresh-btn");
 const result = document.getElementById("result-display");
 
-let hoursInput = 0;
-let minutesInput = 0;
+let hours = 0;
+let minutes = 0;
 const inputsArr = [];
 
-hour.addEventListener("keyup", (e) => {
-	hoursInput = +e.target.value;
+hoursInput.addEventListener("keyup", (e) => {
+	hours = +e.target.value;
 });
 
-minutes.addEventListener("keyup", (e) => {
-	minutesInput = +e.target.value;
+minutesInput.addEventListener("keyup", (e) => {
+	minutes = +e.target.value;
 });
 
 addBtn.addEventListener("click", (e) => {
 	e.preventDefault();
 	inputsArr.push({
-		hours: hoursInput,
-		minutes: minutesInput,
+		hours,
+		minutes,
 	});
-  calculateTotal(inputsArr);
-  console.log(inputsArr);
+	sumTotal(inputsArr);
 });
 
+const sumHours = (inputs) =>
+	inputs.map((input) => input.hours).reduce((p, c) => p + c, 0);
 
+const sumMinutes = (inputs) =>
+	inputs.map((input) => input.minutes).reduce((p, c) => p + c, 0);
 
-const calculateTotal = (inputs) => {
-	let totalHours = inputs
-		.map((input) => input.hours)
-		.reduce((p, c) => p + c, 0);
+const sumTotal = (inputs) => {
+	let totalHours = sumHours(inputs);
+	let totalMinutes = sumMinutes(inputs);
 
-	let totalMinutes = inputs
-		.map((input) => input.minutes)
-		.reduce((p, c) => p + c, 0);
+	if (totalMinutes > 59) {
+		let lastIndex = inputsArr.length - 1;
+
+		inputsArr[lastIndex].hours++;
+		totalHours = sumHours(inputs);
+
+		inputsArr[lastIndex].minutes -= 60;
+		totalMinutes = sumMinutes(inputs);
+	}
 
 	result.innerText = `${totalHours}h, ${totalMinutes}m`;
 };
