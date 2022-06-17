@@ -16,15 +16,17 @@ minutes.addEventListener("keyup", (e) => {
 	minutesInput = +e.target.value;
 });
 
-
 addBtn.addEventListener("click", (e) => {
 	e.preventDefault();
 	inputsArr.push({
 		hours: hoursInput,
 		minutes: minutesInput,
 	});
-	calculateTotal(inputsArr);
+  calculateTotal(inputsArr);
+  console.log(inputsArr);
 });
+
+
 
 const calculateTotal = (inputs) => {
 	let totalHours = inputs
@@ -34,11 +36,6 @@ const calculateTotal = (inputs) => {
 	let totalMinutes = inputs
 		.map((input) => input.minutes)
 		.reduce((p, c) => p + c, 0);
-
-	if (totalMinutes > 59) {
-		totalHours++;
-		totalMinutes = totalMinutes - 60;
-	}
 
 	result.innerText = `${totalHours}h, ${totalMinutes}m`;
 };
